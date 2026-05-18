@@ -110,7 +110,7 @@ export default function AdminLayout() {
             {!sidebarCollapsed && (
               <div className="p-4 border-t border-slate-700">
                 <Link
-                  to="/"
+                  to="/dashboard"
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors"
                 >
                   <ArrowLeft className="w-5 h-5" />

@@ -2,6 +2,9 @@ import { createBrowserRouter } from "react-router";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
+// Public Pages
+import LandingPage from "./pages/LandingPage";
+
 // Auth Pages
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
@@ -63,6 +66,9 @@ import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export const router = createBrowserRouter([
+  // Public landing page (no auth required)
+  { path: "/", Component: LandingPage },
+
   {
     path: "/auth",
     Component: AuthLayout,
@@ -87,51 +93,52 @@ export const router = createBrowserRouter([
       { path: "settings", Component: AdminSettingsPage },
     ],
   },
+  // Protected app routes (dashboard + modules) wrapped in MainLayout
   {
-    path: "/",
     Component: MainLayout,
     children: [
-      { index: true, Component: DashboardPage },
-      
+      // Dashboard
+      { path: "/dashboard", Component: DashboardPage },
+
       // Employees
-      { path: "employees", Component: EmployeeListPage },
-      { path: "employees/add", Component: EmployeeAddPage },
-      { path: "employees/edit/:id", Component: EmployeeEditPage },
-      { path: "employees/profile/:id", Component: EmployeeProfilePage },
-      
+      { path: "/employees", Component: EmployeeListPage },
+      { path: "/employees/add", Component: EmployeeAddPage },
+      { path: "/employees/edit/:id", Component: EmployeeEditPage },
+      { path: "/employees/profile/:id", Component: EmployeeProfilePage },
+
       // Attendance
-      { path: "attendance", Component: AttendanceDashboard },
-      { path: "attendance/calendar", Component: AttendanceCalendar },
-      
+      { path: "/attendance", Component: AttendanceDashboard },
+      { path: "/attendance/calendar", Component: AttendanceCalendar },
+
       // Leave
-      { path: "leave/request", Component: LeaveRequestPage },
-      { path: "leave/approval", Component: LeaveApprovalPage },
-      { path: "leave/history", Component: LeaveHistoryPage },
-      
+      { path: "/leave/request", Component: LeaveRequestPage },
+      { path: "/leave/approval", Component: LeaveApprovalPage },
+      { path: "/leave/history", Component: LeaveHistoryPage },
+
       // Payroll
-      { path: "payroll", Component: PayrollDashboard },
-      { path: "payroll/process", Component: ProcessPayrollPage },
-      { path: "payroll/payslip/:id", Component: PayslipPage },
-      { path: "payroll/table", Component: PayrollTablePage },
-      
+      { path: "/payroll", Component: PayrollDashboard },
+      { path: "/payroll/process", Component: ProcessPayrollPage },
+      { path: "/payroll/payslip/:id", Component: PayslipPage },
+      { path: "/payroll/table", Component: PayrollTablePage },
+
       // Departments & Roles
-      { path: "departments", Component: DepartmentsPage },
-      { path: "roles", Component: RolesPage },
-      
+      { path: "/departments", Component: DepartmentsPage },
+      { path: "/roles", Component: RolesPage },
+
       // Performance
-      { path: "performance/reviews", Component: PerformanceReviewsPage },
-      { path: "performance/feedback", Component: PerformanceFeedbackPage },
-      
+      { path: "/performance/reviews", Component: PerformanceReviewsPage },
+      { path: "/performance/feedback", Component: PerformanceFeedbackPage },
+
       // Settings
-      { path: "settings/profile", Component: ProfileSettingsPage },
-      { path: "settings/company", Component: CompanySettingsPage },
-      { path: "settings/security", Component: SecuritySettingsPage },
-      
+      { path: "/settings/profile", Component: ProfileSettingsPage },
+      { path: "/settings/company", Component: CompanySettingsPage },
+      { path: "/settings/security", Component: SecuritySettingsPage },
+
       // Reports
-      { path: "reports", Component: ReportsPage },
-      
-      // Not Found
-      { path: "*", Component: NotFoundPage },
+      { path: "/reports", Component: ReportsPage },
     ],
   },
+
+  // Not Found (catch-all)
+  { path: "*", Component: NotFoundPage },
 ]);

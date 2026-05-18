@@ -29,7 +29,7 @@ export default function AdminProtectedRoute({ children }: AdminProtectedRoutePro
   }
 
   if (role !== 'Admin') {
-    return <Navigate to="/" replace />
+    return <Navigate to="/dashboard" replace />
   }
 
   return <>{children}</>
