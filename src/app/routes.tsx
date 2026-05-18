@@ -7,7 +7,6 @@ import LandingPage from "./pages/LandingPage";
 
 // Auth Pages
 import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
@@ -62,6 +61,13 @@ import AdminAuditLogsPage from "./pages/admin/AdminAuditLogsPage";
 import AdminReportsPage from "./pages/admin/AdminReportsPage";
 import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
 
+// Employee Self-Service Module
+import EmployeeLayout from "./layouts/EmployeeLayout";
+import EmployeeDashboardPage from "./pages/employee/EmployeeDashboardPage";
+import EmployeeAttendancePage from "./pages/employee/EmployeeAttendancePage";
+import EmployeeLeavePage from "./pages/employee/EmployeeLeavePage";
+import EmployeePayrollPage from "./pages/employee/EmployeePayrollPage";
+
 // Not Found
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -74,7 +80,6 @@ export const router = createBrowserRouter([
     Component: AuthLayout,
     children: [
       { path: "login", Component: LoginPage },
-      { path: "register", Component: RegisterPage },
       { path: "forgot-password", Component: ForgotPasswordPage },
       { path: "reset-password", Component: ResetPasswordPage },
     ],
@@ -91,6 +96,19 @@ export const router = createBrowserRouter([
       { path: "audit-logs", Component: AdminAuditLogsPage },
       { path: "reports", Component: AdminReportsPage },
       { path: "settings", Component: AdminSettingsPage },
+    ],
+  },
+
+  // Employee self-service panel (Employee role only)
+  {
+    path: "/employee",
+    Component: EmployeeLayout,
+    children: [
+      { index: true, Component: EmployeeDashboardPage },
+      { path: "dashboard", Component: EmployeeDashboardPage },
+      { path: "attendance", Component: EmployeeAttendancePage },
+      { path: "leave", Component: EmployeeLeavePage },
+      { path: "payroll", Component: EmployeePayrollPage },
     ],
   },
   // Protected app routes (dashboard + modules) wrapped in MainLayout

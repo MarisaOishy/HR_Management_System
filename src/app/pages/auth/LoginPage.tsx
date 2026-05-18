@@ -8,6 +8,21 @@ import { Checkbox } from "../../components/ui/checkbox";
 import { signIn } from "../../../lib/auth";
 import { toast } from "sonner";
 
+function pickLandingPath(user: { email?: string | null; user_metadata?: any } | null | undefined): string {
+  const metaRole = user?.user_metadata?.role as string | undefined;
+  if (metaRole === "Admin") return "/admin";
+
+  const email = user?.email?.toLowerCase() ?? "";
+  const local = email.split("@")[0];
+
+  if (local === "hr.admin" || local.startsWith("hr.admin")) return "/dashboard";
+  if (local === "hr" || local.startsWith("hr.")) return "/dashboard";
+  if (metaRole === "HR Admin" || metaRole === "HR") return "/dashboard";
+
+  // Default: regular employee
+  return "/employee/dashboard";
+}
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("hr.admin@banglahr.com.bd");
@@ -18,9 +33,9 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await signIn(email, password);
+      const { user } = await signIn(email, password);
       toast.success("Logged in successfully!");
-      navigate("/dashboard");
+      navigate(pickLandingPath(user));
     } catch (error: any) {
       toast.error(error.message || "Failed to sign in");
     } finally {
@@ -85,12 +100,6 @@ export default function LoginPage() {
           <Button type="submit" className="w-full" size="lg" disabled={loading}>
             {loading ? "Signing in..." : "Sign in"}
           </Button>
-          <div className="text-center text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link to="/auth/register" className="text-blue-600 hover:underline">
-              Sign up
-            </Link>
-          </div>
         </form>
       </CardContent>
     </Card>

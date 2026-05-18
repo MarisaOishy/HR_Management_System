@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth, isEmployee } from "../contexts/AuthContext";
 
 const features = [
   {
@@ -68,7 +68,8 @@ const highlights = [
 ];
 
 export default function LandingPage() {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
+  const dashboardPath = isEmployee(role) ? "/employee/dashboard" : "/dashboard";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -97,20 +98,15 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             {user ? (
               <Button asChild>
-                <Link to="/dashboard">
+                <Link to={dashboardPath}>
                   Go to Dashboard
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
             ) : (
-              <>
-                <Button variant="ghost" asChild className="hidden sm:inline-flex">
-                  <Link to="/auth/register">Sign up</Link>
-                </Button>
-                <Button asChild>
-                  <Link to="/auth/login">Login</Link>
-                </Button>
-              </>
+              <Button asChild>
+                <Link to="/auth/login">Login</Link>
+              </Button>
             )}
           </div>
         </div>
@@ -145,17 +141,12 @@ export default function LandingPage() {
                   </Link>
                 </Button>
               ) : (
-                <>
-                  <Button size="lg" asChild>
-                    <Link to="/auth/login">
-                      Login to Dashboard
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link to="/auth/register">Create an account</Link>
-                  </Button>
-                </>
+                <Button size="lg" asChild>
+                  <Link to="/auth/login">
+                    Login to Dashboard
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
               )}
             </div>
 
@@ -329,23 +320,18 @@ export default function LandingPage() {
           </p>
           {user ? (
             <Button size="lg" asChild>
-              <Link to="/dashboard">
+              <Link to={dashboardPath}>
                 Go to Dashboard
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
           ) : (
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Button size="lg" asChild>
-                <Link to="/auth/login">
-                  Login to Dashboard
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link to="/auth/register">Create an account</Link>
-              </Button>
-            </div>
+            <Button size="lg" asChild>
+              <Link to="/auth/login">
+                Login to Dashboard
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
           )}
         </div>
       </section>

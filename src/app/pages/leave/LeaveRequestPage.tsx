@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
@@ -14,7 +14,7 @@ import {
 } from "../../components/ui/select";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth, canApproveLeaves } from "../../contexts/AuthContext";
 import {
   createLeaveRequest,
   getLeaveBalanceByEmployee,
@@ -24,6 +24,7 @@ import { supabase } from "../../../lib/supabase";
 
 export default function LeaveRequestPage() {
   const navigate = useNavigate();
+  const { role } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -76,6 +77,10 @@ export default function LeaveRequestPage() {
   useEffect(() => {
     fetchEmployees();
   }, [fetchEmployees]);
+
+  if (!canApproveLeaves(role)) {
+    return <Navigate to="/leave/approval" replace />;
+  }
 
   useEffect(() => {
     if (!employeeId) {

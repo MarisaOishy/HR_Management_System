@@ -15,11 +15,11 @@ import { Check, X, Eye, Loader2 } from "lucide-react";
 import { getLeaveRequests, updateLeaveStatus, deductLeaveBalance } from "../../../lib/services/leaveService";
 import type { LeaveRequest } from "../../../lib/types/database";
 import { toast } from "sonner";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth, canApproveLeaves } from "../../contexts/AuthContext";
 
 export default function LeaveApprovalPage() {
   const { role } = useAuth();
-  const canDecide = role !== "HR";
+  const canDecide = canApproveLeaves(role);
   const [requests, setRequests] = useState<LeaveRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -91,12 +91,18 @@ export default function LeaveApprovalPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold text-gray-900">Leave Approvals</h1>
-          <p className="text-gray-600 mt-1">Review and approve leave requests</p>
+          <p className="text-gray-600 mt-1">
+            {canDecide
+              ? "Review and approve leave requests"
+              : "View leave requests submitted by employees (read-only)"}
+          </p>
         </div>
         <div className="flex gap-2">
-          <Link to="/leave/request">
-            <Button className="bg-blue-600 hover:bg-blue-700">Add Leave Record</Button>
-          </Link>
+          {canDecide && (
+            <Link to="/leave/request">
+              <Button className="bg-blue-600 hover:bg-blue-700">Add Leave Record</Button>
+            </Link>
+          )}
           <Link to="/leave/history">
             <Button variant="outline">View History</Button>
           </Link>

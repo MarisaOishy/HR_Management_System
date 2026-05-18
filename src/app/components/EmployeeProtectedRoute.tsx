@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router'
 import { useAuth, isEmployee } from '../contexts/AuthContext'
 
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+export default function EmployeeProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading, role } = useAuth()
 
   if (loading) {
@@ -19,9 +19,9 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     return <Navigate to="/auth/login" replace />
   }
 
-  // Regular employees use the dedicated /employee panel — keep them out of the HR dashboard
-  if (isEmployee(role)) {
-    return <Navigate to="/employee/dashboard" replace />
+  if (!isEmployee(role)) {
+    // HR / HR Admin / Admin should use the staff dashboard
+    return <Navigate to="/dashboard" replace />
   }
 
   return <>{children}</>

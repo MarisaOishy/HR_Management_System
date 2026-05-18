@@ -102,3 +102,13 @@ export function useAuth() {
 export function isAdminOrHR(role: string): boolean {
   return role === 'Admin' || role === 'HR Admin' || role === 'HR'
 }
+
+/** Roles allowed to approve or reject leave requests */
+export function canApproveLeaves(role: string): boolean {
+  return role === 'Admin' || role === 'HR Admin'
+}
+
+/** True for the Employee self-service role */
+export function isEmployee(role: string): boolean {
+  return role === 'Employee'
+}

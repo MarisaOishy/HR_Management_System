@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
-import { useAuth, isAdminOrHR } from "../../contexts/AuthContext";
+import { useAuth, canApproveLeaves } from "../../contexts/AuthContext";
 import {
   getEmployeeByEmailForLeave,
   getLeaveBalanceByEmployee,
@@ -15,7 +15,7 @@ import type { LeaveBalance, LeaveRequest } from "../../../lib/types/database";
 
 export default function LeaveHistoryPage() {
   const { user, role } = useAuth();
-  const canManage = isAdminOrHR(role);
+  const canManage = canApproveLeaves(role);
 
   const [loading, setLoading] = useState(true);
   const [employeeId, setEmployeeId] = useState<string | null>(null);
