@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 import ProtectedRoute from "../components/ProtectedRoute";
+import ChatWidget from "../components/chat/ChatWidget";
 import { useState } from "react";
 
 export default function MainLayout() {
@@ -17,6 +18,7 @@ export default function MainLayout() {
             <Outlet />
           </main>
         </div>
+        <ChatWidget />
       </div>
     </ProtectedRoute>
   );
